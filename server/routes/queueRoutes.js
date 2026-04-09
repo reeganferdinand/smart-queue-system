@@ -117,4 +117,22 @@ router.get("/:queueId/status", async (req, res) => {
   }
 });
 
+
+// Get queue by placeId
+router.get("/place/:placeId", async (req, res) => {
+  try {
+    const { placeId } = req.params;
+
+    const queue = await Queue.findOne({ placeId });
+
+    if (!queue) {
+      return res.status(404).json({ message: "Queue not found" });
+    }
+
+    res.json(queue);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
